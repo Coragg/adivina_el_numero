@@ -1,6 +1,5 @@
-#=
-This is a simple game where you only have to say: less, equal or greater than the number that appears on the screen.
-=#
+# This is a simple game where you only have to say: less, equal or greater than the number that appears on the screen.
+
 
 function instructions()
     println("This is a simple game where you only have to say: less, equal or greater than the number that appears on the screen.")
@@ -8,8 +7,7 @@ end
 
 
 function create_question_and_variable_string(phrase:: String)
-    #=This function is used to create a print and have an input in the process.
-    =#
+    # This function is used to create a print and have an input in the process.
     print("$phrase")
     return readline()
 end
@@ -31,8 +29,14 @@ end
 
 
 function generate_cut_with_answer(list_with_numbers:: Array{Int64,1}, round)
+    if length(list_with_numbers) == 0
+            println("I'm sorry, I can't found the answer. ")
+            return
+    end
+
     average = give_the_average(list_with_numbers)
     user_answer = create_question_and_variable_string("$round) Is the number less, equal or greater than $average? (less/equal/great): ")
+
     if lowercase(user_answer)  == "less" || lowercase(user_answer) == "great"
         list_with_numbers = cut_list(user_answer, list_with_numbers, average)
         generate_cut_with_answer(list_with_numbers, round + 1)
@@ -49,7 +53,7 @@ end
 function game()
     start_or_exit_game = create_question_and_variable_string("Do you want to start the game? (y/n): ")
     set_numbers = create_list_of_numbers()
-    if lowercase(start_or_exit_game)  == "y" || lowercase(start_or_exit_game) == "yes"
+    if lowercase(start_or_exit_game) == "y" || lowercase(start_or_exit_game) == "yes"
         println("Let's start!")
         generate_cut_with_answer(set_numbers, 1)
         game()
